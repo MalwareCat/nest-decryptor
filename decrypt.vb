@@ -1,10 +1,14 @@
 Imports System.Text
 Imports System.Security.Cryptography
 
-Namespace MalwareCat
+Namespace Rextester
     Public Module Program
         Public Sub Main(args() As string)
-            Console.WriteLine(Utils.DecryptString("fTEzAfYDoz1YzkqhQkH6GQFYKp1XY5hm7bjOP86yYxE="))
+        'Use by uncommenting to decrypt the user hash
+            'Console.WriteLine(Utils.DecryptString("fTEzAfYDoz1YzkqhQkH6GQFYKp1XY5hm7bjOP86yYxE="))
+        
+        'Use by uncommenting to decrypt the admin hash
+        'Console.WriteLine(Utils.DecryptString("yyEq0Uvvhq2uQOcWG8peLoeRQehqip/fKdeG/kjEVb4="))
         End Sub
         
         Public Class Utils
@@ -13,7 +17,11 @@ Namespace MalwareCat
                 If String.IsNullOrEmpty(EncryptedString) Then
                     Return String.Empty
                 Else
-                    Return Decrypt(EncryptedString, "N3st22", "88552299", 2, "464R5DFA5DL6LE28", 256)
+                'Use by uncommenting to decrypt the user hash
+                    'Return Decrypt(EncryptedString, "N3st22", "88552299", 2, "464R5DFA5DL6LE28", 256)
+                
+                'Use by uncommenting to decrypt the admin hash
+                    'Return Decrypt(EncryptedString, "667912", "1313Rf99", 3, "1L1SA61493DRV53Z", 256)
                 End If
             End Function
 
@@ -30,7 +38,6 @@ Namespace MalwareCat
                 cipherTextBytes = Convert.FromBase64String(cipherText)
 
                 Dim password As New Rfc2898DeriveBytes(passPhrase, saltValueBytes, passwordIterations)
-
 
                 Dim keyBytes As Byte()
                 keyBytes = password.GetBytes(CInt(keySize / 8))
@@ -53,18 +60,14 @@ Namespace MalwareCat
                 Dim decryptedByteCount As Integer
                 decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length)
 
-
                 memoryStream.Close()
                 cryptoStream.Close()
 
                 Dim plainText As String
                 plainText = Encoding.ASCII.GetString(plainTextBytes, 0, decryptedByteCount)
 
-
                 Return plainText
             End Function
         End Class
-        
-        
     End Module
 End Namespace
